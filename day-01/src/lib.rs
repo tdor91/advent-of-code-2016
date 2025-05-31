@@ -101,7 +101,7 @@ impl Position {
     pub fn trace_walk(&self, action: &Action) -> (Position, Vec<Point>) {
         let mut temp_point = self.point.clone();
         let mut points: Vec<Point> = vec![];
-        
+
         let direction = self.direction.turn(&action.turn);
         let step = direction.as_step();
 

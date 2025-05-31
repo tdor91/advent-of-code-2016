@@ -1,5 +1,5 @@
-use std::collections::HashSet;
 use day_01::*;
+use std::collections::HashSet;
 
 fn main() {
     let input = include_str!("../input/input.txt");
@@ -41,4 +41,3 @@ fn part2(actions: &Vec<Action>) -> u32 {
 
     panic!("no result found");
 }
-
