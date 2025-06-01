@@ -1,10 +1,10 @@
 pub trait Keypad {
     fn get_button(&self) -> char;
-    fn process_char(&mut self, c: &char);
+    fn process_char(&mut self, c: char);
 
     fn process_line(&mut self, line: &str) -> char {
         for c in line.chars() {
-            self.process_char(&c);
+            self.process_char(c);
         }
 
         self.get_button()
@@ -35,7 +35,7 @@ impl SimpleKeypad {
 }
 
 impl Keypad for SimpleKeypad {
-    fn process_char(&mut self, c: &char) {
+    fn process_char(&mut self, c: char) {
         self.position = match c {
             'U' => (self.position.0, try_dec(self.position.1)),
             'D' => (self.position.0, SimpleKeypad::try_inc(self.position.1)),
@@ -68,16 +68,19 @@ impl ComplexKeypad {
             vec![None, None, Some('D'), None, None],
         ];
 
-        ComplexKeypad { position, button_map }
+        ComplexKeypad {
+            position,
+            button_map,
+        }
     }
 
-    fn get_button(&self, pos: &(usize, usize)) -> Option<char> {
+    fn get_button(&self, pos: (usize, usize)) -> Option<char> {
         self.button_map.get(pos.1)?.get(pos.0)?.as_ref().copied()
     }
 }
 
 impl Keypad for ComplexKeypad {
-    fn process_char(&mut self, c: &char) {
+    fn process_char(&mut self, c: char) {
         let pos = match c {
             'U' => (self.position.0, try_dec(self.position.1)),
             'D' => (self.position.0, self.position.1 + 1),
@@ -86,7 +89,7 @@ impl Keypad for ComplexKeypad {
             _ => panic!("invalid direction"),
         };
 
-        if let Some(_) = self.get_button(&pos) {
+        if let Some(_) = self.get_button(pos) {
             self.position = pos;
         }
     }
