@@ -5,8 +5,7 @@ fn main() {
     let input = include_str!("../input/input.txt");
     let rooms: Vec<_> = input
         .split("\n")
-        .map(|line| line.trim())
-        .map(|line| RoomDefinition::from(line))
+        .map(|line| RoomDefinition::from(line.trim()))
         .collect();
 
     let part1 = rooms
@@ -62,9 +61,8 @@ fn count_letters(name: &str) -> HashMap<char, u32> {
 }
 
 fn get_top_n_chars(name: &str, n: usize) -> String {
-    let map = count_letters(name);
+    let mut sorted: Vec<_> = count_letters(name).into_iter().collect();
 
-    let mut sorted: Vec<_> = map.into_iter().collect();
     sorted.sort_by(|a, b| {
         let order = b.1.cmp(&a.1);
         if order.is_ne() {
