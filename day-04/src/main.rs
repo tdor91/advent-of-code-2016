@@ -17,7 +17,7 @@ fn main() {
     println!("Part 1: {}", part1);
 
     for room in rooms {
-        if decode(&room) == "northpole-object-storage-" {
+        if decode(&room).contains("northpole-object-storage") {
             println!("Part 2: {}", room.sector_id);
             break;
         }
