@@ -15,6 +15,13 @@ fn main() {
         .sum::<u32>();
 
     println!("Part 1: {}", part1);
+
+    for room in rooms {
+        if decode(&room) == "northpole-object-storage-" {
+            println!("Part 2: {}", room.sector_id);
+            break;
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -73,4 +80,36 @@ fn get_top_n_chars(name: &str, n: usize) -> String {
     });
 
     sorted.iter().map(|(c, _)| c).take(n).collect()
+}
+
+fn decode(room: &RoomDefinition) -> String {
+    let mut chars = vec![];
+
+    for c in room.name.chars() {
+        if c == '-' {
+            chars.push(rotate_dash(c, room.sector_id));
+        } else {
+            chars.push(rotate_letter(c, room.sector_id));
+        }
+    }
+
+    chars.into_iter().collect()
+}
+
+fn rotate_letter(c: char, cnt: u32) -> char {
+    if c < 'a' && c > 'z' {
+        panic!("only works for lower case letters but got '{}'", c);
+    }
+
+    let a = 'a' as u32;
+    let offset = (c as u32 - a + cnt) % 26;
+    std::char::from_u32(a + offset).unwrap()
+}
+
+fn rotate_dash(c: char, cnt: u32) -> char {
+    if cnt % 2 == 0 {
+        '-'
+    } else {
+        ' '
+    }
 }
