@@ -6,7 +6,7 @@ fn main() {
 }
 
 fn brute_force_part1(input: &str) -> String {
-    let mut result = Vec::<char>::new();
+    let mut result = Vec::new();
     let mut index = 0 as u32;
 
     while result.len() < 8 {
@@ -23,7 +23,7 @@ fn brute_force_part1(input: &str) -> String {
         index += 1;
     }
 
-    result.into_iter().collect::<String>()
+    result.into_iter().collect()
 }
 
 fn brute_force_part2(input: &str) -> String {
@@ -47,7 +47,7 @@ fn brute_force_part2(input: &str) -> String {
     result
         .into_iter()
         .map(|v| v.expect("should have value"))
-        .collect::<String>()
+        .collect()
 }
 
 fn hash_hex(input: &str, index: u32) -> String {
