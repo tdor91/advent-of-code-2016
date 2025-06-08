@@ -16,10 +16,6 @@ fn brute_force_part1(input: &str) -> String {
             result.push(hash.chars().nth(5).unwrap());
         }
 
-        if result.len() >= 8 {
-            break;
-        }
-
         index += 1;
     }
 
@@ -30,13 +26,21 @@ fn brute_force_part2(input: &str) -> String {
     let mut result = [None; 8];
     let mut index = 0 as u32;
 
-    while result.iter().any(|v| v.is_none()) {
+    // Use a loop instead of a while with condition:
+    // We can reduce the number of times we have to check the condition by checking
+    // inside the loop only when we found a new character. This should improve performance.
+    loop {
         let hash = hash_hex(input, index);
 
         if hash.starts_with("00000") {
             if let Some((pos, c)) = extract_pos_and_char(&hash) {
                 if pos < result.len() && result[pos].is_none() {
                     result[pos] = Some(c);
+
+                    if !result.iter().any(|v| v.is_none()) {
+                        // we found all the characters
+                        break;
+                    }
                 }
             }
         }
