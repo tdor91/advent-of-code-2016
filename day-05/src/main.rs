@@ -7,16 +7,18 @@ fn main() {
 
 fn brute_force_part1(input: &str) -> String {
     let mut result = Vec::new();
-    let mut index = 0 as u32;
 
-    while result.len() < 8 {
+    for index in 1.. {
         let hash = hash_hex(input, index);
 
         if hash.starts_with("00000") {
             result.push(hash.chars().nth(5).unwrap());
-        }
 
-        index += 1;
+            if result.len() >= 7 {
+                // all the characters found
+                break;
+            }
+        }
     }
 
     result.into_iter().collect()
@@ -24,12 +26,11 @@ fn brute_force_part1(input: &str) -> String {
 
 fn brute_force_part2(input: &str) -> String {
     let mut result = [None; 8];
-    let mut index = 0 as u32;
 
-    // Use a loop instead of a while with condition:
+    // Use an infinite loop instead of a while with condition:
     // We can reduce the number of times we have to check the condition by checking
     // inside the loop only when we found a new character. This should improve performance.
-    loop {
+    for index in 1.. {
         let hash = hash_hex(input, index);
 
         if hash.starts_with("00000") {
@@ -38,14 +39,12 @@ fn brute_force_part2(input: &str) -> String {
                     result[pos] = Some(c);
 
                     if !result.iter().any(|v| v.is_none()) {
-                        // we found all the characters
+                        // all the characters found
                         break;
                     }
                 }
             }
         }
-
-        index += 1;
     }
 
     result
